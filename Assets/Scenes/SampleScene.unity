@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   managerDist: 1.5
-  ropeSegments: 5
+  ropeSegments: 2
   nodePrefab: {fileID: 9039049539315126125, guid: a41f6db1ae3186b4782a0a86439b7eef, type: 3}
   allNodes: []
 --- !u!4 &647011995

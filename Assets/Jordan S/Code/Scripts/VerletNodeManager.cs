@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -37,6 +38,8 @@ public class VerletNodeManager : MonoBehaviour
                 newNode.prevNode = allNodes[i - 1].GetComponent<VerletNodeScript>();
                 newNode.desiredDist = managerDist;
                 newNode.mass = 1f;
+                newNode.state.pos = newNode.transform.position;
+                Debug.Log(newNode.state.pos);
                 //Check the previous node, if it was our starting node, we know it can't move so set compensate for us to 0
                 if (newNode.prevNode.isFixed)
                 {
@@ -53,15 +56,49 @@ public class VerletNodeManager : MonoBehaviour
             allNodes.Add(newNode);
         }
     }
-    void FixedUpdate()
+
+    private void Update()
     {
-        foreach (VerletNodeScript node in allNodes)
+        if (Input.GetKey(KeyCode.Space))
         {
-            
+            VerletNodeScript lastNode = allNodes[allNodes.Count - 1];
+            lastNode.state.addForce(new Vector2(0f, 100f));
         }
-        //Public void updateallnodes(list allnodes)
-        //List<Nodes> foreach constraint();
-        //List<Nodes> foreach state.integrate();
-        //List<Nodes> foreach state.Addforce gravity();
     }
+
+    /*void FixedUpdate()
+    {
+        for (int i = 1; i < allNodes.Count; i++)
+        {
+            VerletNodeScript node = allNodes[i];
+            node.state.addForce(new Vector2(0f, -9.81f));
+            node.state.integrate();
+
+            for (int j = 0; j < 10; j++)
+            {
+                node.FixedConstraints(node.state.pos, node.prevNode.state.pos, node.desiredDist, node.compensate1,
+                    node.compensate2);
+                /*node.AddMinConstraints(node.state.pos, node.prevNode.state.pos, node.desiredDist, node.compensate1, node.compensate2);
+                node.AddMaxConstraints(node.state.pos, node.prevNode.state.pos, node.desiredDist, node.compensate1, node.compensate2);
+            #1#
+            }
+            if (node.state.pos.y < -3.5f)
+            {
+                node.state.pos.y = -3.5f;
+            }
+
+            //node.transform.position = node.state.pos;
+        }
+        /*for (int i = 1; i < allNodes.Count; i++)
+        {
+            VerletNodeScript node = allNodes[i];
+            node.AddMinConstraints(node.state.pos, node.prevNode.state.pos, node.desiredDist, node.compensate1, node.compensate2);
+            node.AddMaxConstraints(node.state.pos, node.prevNode.state.pos, node.desiredDist, node.compensate1, node.compensate2);
+        }
+        for (int i = 1; i < allNodes.Count; i++)
+        {
+            VerletNodeScript node = allNodes[i];
+            node.state.integrate();
+        }#1#
+    }*/
 }

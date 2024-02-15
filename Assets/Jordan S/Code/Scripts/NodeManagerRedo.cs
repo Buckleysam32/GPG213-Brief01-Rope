@@ -16,6 +16,16 @@ public class NodeManagerRedo : MonoBehaviour
     public LineRenderer ManagerLineRenderer;
     void Start()
     {
+        SetupNodesInLine();
+    }
+
+    private void FixedUpdate()
+    {
+        SimulateNodes();
+    }
+
+    public void SetupNodesInLine()
+    {
         allNodes = new List<NodeJordanRedoScript>();
         Vector3 newSpawnPos = transform.position;
         newSpawnPos.y += managerDist;
@@ -59,12 +69,6 @@ public class NodeManagerRedo : MonoBehaviour
             ManagerLineRenderer.SetPosition(i, allNodes[i].transform.position);
         }
     }
-
-    private void FixedUpdate()
-    {
-        SimulateNodes();
-    }
-
     public void SimulateNodes()
     {
         foreach (NodeJordanRedoScript node in allNodes)

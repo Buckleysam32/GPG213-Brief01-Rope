@@ -12,6 +12,32 @@ public class VerletNodeManager : MonoBehaviour
 
     public List<VerletNodeScript> allNodes;
     // Start is called before the first frame update
+    void FixedUpdate()
+    {
+        for (int i = 1; i < allNodes.Count; i++)
+        {
+            VerletNodeScript nodeToUpdate = allNodes[i];
+            if (!nodeToUpdate.isFixed)
+            {
+                nodeToUpdate.state.addForce(new Vector2(0f, -9.81f));
+                nodeToUpdate.state.integrate();
+                if (nodeToUpdate.prevNode && !nodeToUpdate.prevNode.isFixed)
+                {
+                    for (int k = 0; k < 20; k++)
+                    {
+                        nodeToUpdate.FixedConstraints(nodeToUpdate.state.pos, nodeToUpdate.prevNode.state.pos, nodeToUpdate.desiredDist, nodeToUpdate.compensate1, nodeToUpdate.compensate2);
+                    }
+                }
+
+                if (nodeToUpdate.state.pos.y < -4f)
+                {
+                    nodeToUpdate.state.pos.y = -4f;
+                }
+
+                nodeToUpdate.transform.position = nodeToUpdate.state.pos;
+            }
+        }
+    }
     void Start()
     {
         allNodes = new List<VerletNodeScript>();
@@ -30,6 +56,9 @@ public class VerletNodeManager : MonoBehaviour
             {
                 newNode.isFixed = true;
                 newNode.prevNode = null;
+                newNode.desiredDist = managerDist;
+                newNode.mass = 1f;
+                newNode.state.pos = newNode.transform.position;
             }
             //Else it is a dynamic node, set its fixed bool and other variables.
             else

@@ -13,26 +13,7 @@ public class VerletNodeScript : MonoBehaviour
     public float compensate1, compensate2;
     public float mass;
     public bool isFixed;
-    void FixedUpdate()
-    {
-        if (!isFixed)
-        {
-            state.addForce(new Vector2(0f, -9.81f));            
-            state.integrate();
-            if (prevNode && !prevNode.isFixed)
-            {
-                for (int i = 0; i < 20; i++)
-                {
-                    FixedConstraints(state.pos, prevNode.state.pos, desiredDist, compensate1, compensate2);
-                }
-            }            
-            if (state.pos.y < -4f)
-            {
-                state.pos.y = -4f;
-            }
-            transform.position = state.pos;
-        }
-    }
+    
 
     private void OnMouseDrag()
     {
@@ -65,8 +46,8 @@ public class VerletNodeScript : MonoBehaviour
         if (deltaLength > 0 && deltaLength < minDist)
         {
             float diff = (deltaLength - minDist) / deltaLength;
-            node1 += delta * compensate1 * diff;
-            node2 -= delta * compensate1 * diff;
+            node1 += delta * (compensate1 * diff);
+            node2 -= delta * (compensate2 * diff);
         }
     }
     public void AddMaxConstraints(Vector2 node1, Vector2 node2, float maxDist, float compensate1, float compensate2)
@@ -76,8 +57,8 @@ public class VerletNodeScript : MonoBehaviour
         if (deltaLength > maxDist)
         {
             float diff = (deltaLength - maxDist) / deltaLength;
-            node1 += delta * compensate1 * diff;
-            node2 -= delta * compensate1 * diff;
+            node1 += delta * (compensate1 * diff);
+            node2 -= delta * (compensate2 * diff);
         }
     }
 }

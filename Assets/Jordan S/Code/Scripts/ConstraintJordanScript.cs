@@ -6,6 +6,7 @@ public class ConstraintJordanScript : MonoBehaviour
 {
     public NodeJordanRedoScript nodeA, nodeB;
     public float maxJointDist, minJointDist;
+    
 
     public void FixedDistanceUpdate(float compensate1, float compensate2)
     {
@@ -28,6 +29,10 @@ public class ConstraintJordanScript : MonoBehaviour
         if (nodeA.isLocked)
         {
             MaxDistanceUpdate(0f, 1f);
+        }
+        else if(nodeB.isLocked)
+        {
+            MaxDistanceUpdate(1f, 0f);
         }
         else
         {

@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c6b0d1bd-64cc-46bd-afd5-7d39d9d67756" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GPG213-Brief01-Rope/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GPG213-Brief01-Rope/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/VerletNodeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/VerletNodeManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/VerletNodeScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/VerletNodeScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/ConstraintJordanScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/ConstraintJordanScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/NodeJordanRedoScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/NodeJordanRedoScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/NodeManagerRedo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Jordan S/Code/Scripts/NodeManagerRedo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Jordan S/Prefabs/RedoNode.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Jordan S/Prefabs/RedoNode.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Jordan Redo Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Jordan Redo Scene.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +38,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "XThreadsFramesViewSplitterKey": "0.19976905",
     "git-widget-placeholder": "Feature",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -82,10 +86,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="15784">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="15784" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -103,6 +107,7 @@
       <updated>1707702147369</updated>
       <workItem from="1707702148463" duration="10938000" />
       <workItem from="1707950283592" duration="7249000" />
+      <workItem from="1709174892533" duration="5625000" />
     </task>
     <servers />
   </component>

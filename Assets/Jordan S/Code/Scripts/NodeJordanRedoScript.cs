@@ -14,9 +14,23 @@ public class NodeJordanRedoScript : MonoBehaviour
     private void Update()
     {
         nodeLinerenderer.SetPosition(0, transform.position);
-        nodeLinerenderer.SetPosition(1, constraintA.nodeA.transform.position);
+        if (constraintA)
+        {
+            nodeLinerenderer.SetPosition(1, constraintA.nodeA.transform.position);
+        }
+        else
+        {
+            nodeLinerenderer.SetPosition(1, transform.position);
+        }
         nodeLinerenderer.SetPosition(2, transform.position);
-        nodeLinerenderer.SetPosition(3, constraintB.nodeB.transform.position);
+        if (constraintB)
+        {
+            nodeLinerenderer.SetPosition(3, constraintB.nodeB.transform.position);
+        }
+        else
+        {
+            nodeLinerenderer.SetPosition(3, transform.position);
+        }
     }
 
     private void OnMouseDrag()

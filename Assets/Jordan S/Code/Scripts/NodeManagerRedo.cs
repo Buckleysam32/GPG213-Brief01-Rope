@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,11 +31,10 @@ public class NodeManagerRedo : MonoBehaviour
         Vector3 newSpawnPos = transform.position;
         if (singleRope)
         {
-            //Generate a rope starting at fixed point, with distance d, 
+            //Generate a rope starting at this gameobjects position, going down by managerdist for every node 
             for (int i = 0; i < verticalRopeSegments; i++)
             {
                 newSpawnPos.y -= managerDist;
-                Debug.Log(newSpawnPos);
                 GameObject newNodeGO = Instantiate(nodePrefab, newSpawnPos, Quaternion.identity);
                 NodeJordanRedoScript newNode = newNodeGO.GetComponent<NodeJordanRedoScript>();
             
@@ -59,10 +59,10 @@ public class NodeManagerRedo : MonoBehaviour
         else
         {
             float originalY = newSpawnPos.y;
-            //Generate a sheet starting at fixed point, with grid distance d
+            //Similar to a normal rope, but also go across using a second loop.
             for (int i = 0; i < horizontalRopeSegments; i++)
             {                    
-                newSpawnPos.x += managerDist;
+                newSpawnPos.x += (managerDist * 1.2f);
                 newSpawnPos.y = originalY;
                 for (int j = 0; j < verticalRopeSegments; j++)
                 {
@@ -93,31 +93,54 @@ public class NodeManagerRedo : MonoBehaviour
         for (int i = 1; i < allNodes.Count; i++)
         {
             //for each of the nodes we spawn, create a new constraint
-            ConstraintJordanScript newConstraint = gameObject.AddComponent<ConstraintJordanScript>();
+            ConstraintJordanScript newConstraintA = gameObject.AddComponent<ConstraintJordanScript>();            
             if (i % verticalRopeSegments == 0)
             {
-                //do nothing so the last node in a collumn doesn't connect to the first of the next
-            }
-            else if (i != 1 && verticalRopeSegments % i == 0)
-            {
-                newConstraint.nodeA = allNodes[i - verticalRopeSegments];
-                newConstraint.nodeB = allNodes[i]; 
-                //tell it its min and max distances
-                newConstraint.minJointDist = managerDist - (managerDist / 2f);
-                newConstraint.maxJointDist = managerDist + (managerDist / 2f);
-                //add it to the constraints list
-                allConstraints.Add(newConstraint);
+                //do nothing so the first node in a column doesn't connect to the last of the previous column
             }
             else
             {
                 //tell it its two nodes
-                newConstraint.nodeA = allNodes[i - 1];
-                newConstraint.nodeB = allNodes[i];
+                newConstraintA.nodeA = allNodes[i - 1];
+                newConstraintA.nodeB = allNodes[i];
                 //tell it its min and max distances
-                newConstraint.minJointDist = managerDist - (managerDist / 2f);
-                newConstraint.maxJointDist = managerDist + (managerDist / 2f);
+                newConstraintA.minJointDist = managerDist - (managerDist / 2f);
+                newConstraintA.maxJointDist = managerDist + (managerDist / 2f);
                 //add it to the constraints list
-                allConstraints.Add(newConstraint);
+                allConstraints.Add(newConstraintA);
+                allNodes[i].constraintA = newConstraintA;
+            }
+        }
+        //Setup a second constraint that targets the node verticalropesegments back in the list, this connects to the
+        //node horizontally to the left.
+        for (int i = 0; i < allNodes.Count; i++)
+        {
+            //create a new constraint
+            ConstraintJordanScript newConstraintB = gameObject.AddComponent<ConstraintJordanScript>();
+            //If this node isnt the first node, but is still on the top row, setup its horizontal constraint
+            if (i != 0 && i % verticalRopeSegments == 0)
+            {
+                newConstraintB.nodeB = allNodes[i - verticalRopeSegments];
+                newConstraintB.nodeA = allNodes[i];
+                //tell it its min and max distances
+                newConstraintB.minJointDist = managerDist - (managerDist / 2f);
+                newConstraintB.maxJointDist = managerDist + (managerDist / 2f);
+                //add it to the constraints list
+                allConstraints.Add(newConstraintB);                
+                allNodes[i].constraintB = newConstraintB;
+            }
+            //else if it is a node that isn't in the first column, go back the number of vertical nodes (to get to the
+            //same position but in the last column) and make that our second constraint
+            else if (allNodes.ElementAtOrDefault(i - verticalRopeSegments))
+            {
+                newConstraintB.nodeB = allNodes[i - verticalRopeSegments];
+                newConstraintB.nodeA = allNodes[i];
+                //tell it its min and max distances
+                newConstraintB.minJointDist = managerDist - (managerDist / 2f);
+                newConstraintB.maxJointDist = managerDist + (managerDist / 2f);
+                //add it to the constraints list
+                allConstraints.Add(newConstraintB);                
+                allNodes[i].constraintB = newConstraintB;
             }
         }
     }
@@ -133,7 +156,7 @@ public class NodeManagerRedo : MonoBehaviour
                 node.nodePrevPos = updatePosition;
             }
         }
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 10; i++)
         {
             foreach (ConstraintJordanScript constraint in allConstraints)
             {

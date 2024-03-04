@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConstraintJordanScript : MonoBehaviour
+public class ConstraintJordanScript
 {
     public NodeJordanRedoScript nodeA, nodeB;
     public float maxJointDist, minJointDist;

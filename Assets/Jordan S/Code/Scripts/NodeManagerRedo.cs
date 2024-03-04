@@ -12,7 +12,7 @@ public class NodeManagerRedo : MonoBehaviour
     public int verticalRopeSegments, horizontalRopeSegments;
     public GameObject nodePrefab;
     public List<NodeJordanRedoScript> allNodes;
-    public List<ConstraintJordanScript> allConstraints;
+    public List<ConstraintJordanScript>  allConstraints = new List<ConstraintJordanScript>();
     public bool useFixedDistance, singleRope;
     public LineRenderer ManagerLineRenderer;
     void Start()
@@ -93,7 +93,7 @@ public class NodeManagerRedo : MonoBehaviour
         for (int i = 1; i < allNodes.Count; i++)
         {
             //for each of the nodes we spawn, create a new constraint
-            ConstraintJordanScript newConstraintA = gameObject.AddComponent<ConstraintJordanScript>();            
+            ConstraintJordanScript newConstraintA = new ConstraintJordanScript();            
             if (i % verticalRopeSegments == 0)
             {
                 //do nothing so the first node in a column doesn't connect to the last of the previous column
@@ -109,6 +109,7 @@ public class NodeManagerRedo : MonoBehaviour
                 //add it to the constraints list
                 allConstraints.Add(newConstraintA);
                 allNodes[i].constraintA = newConstraintA;
+                Debug.Log(newConstraintA);
             }
         }
         //Setup a second constraint that targets the node verticalropesegments back in the list, this connects to the
@@ -116,7 +117,7 @@ public class NodeManagerRedo : MonoBehaviour
         for (int i = 0; i < allNodes.Count; i++)
         {
             //create a new constraint
-            ConstraintJordanScript newConstraintB = gameObject.AddComponent<ConstraintJordanScript>();
+            ConstraintJordanScript newConstraintB = new ConstraintJordanScript();
             //If this node isnt the first node, but is still on the top row, setup its horizontal constraint
             if (i != 0 && i % verticalRopeSegments == 0)
             {
@@ -174,6 +175,5 @@ public class NodeManagerRedo : MonoBehaviour
         {
             node.transform.position = node.nodePos;
         }
-
     }
 }

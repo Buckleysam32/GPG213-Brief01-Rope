@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4.07, z: 0}
-  m_LocalScale: {x: 0.33, y: 0.33, z: 1}
+  m_LocalScale: {x: 0.175, y: 0.175, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -138,8 +138,6 @@ MonoBehaviour:
   nodePrevPos: {x: 0, y: 0}
   isLocked: 0
   mass: 0
-  constraintA: {fileID: 0}
-  constraintB: {fileID: 0}
   nodeLinerenderer: {fileID: 7679414189364652052}
 --- !u!120 &7679414189364652052
 LineRenderer:
@@ -190,7 +188,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:

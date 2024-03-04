@@ -241,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 647011993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 4.5, z: 0}
+  m_LocalPosition: {x: -8.96, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -259,12 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83cd3412c5d0d8d4fa8f9745c7b063cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  managerDist: 0.75
-  verticalRopeSegments: 5
-  horizontalRopeSegments: 10
+  managerDist: 0.2
+  verticalRopeSegments: 25
+  horizontalRopeSegments: 70
   nodePrefab: {fileID: 9039049539315126125, guid: 688a4a0f1b0c2fd4382617b86f68c37a, type: 3}
   allNodes: []
-  allConstraints: []
   useFixedDistance: 0
   singleRope: 0
   ManagerLineRenderer: {fileID: 0}

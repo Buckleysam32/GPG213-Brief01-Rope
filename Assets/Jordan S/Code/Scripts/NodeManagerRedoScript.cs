@@ -6,13 +6,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NodeManagerRedo : MonoBehaviour
+public class NodeManagerRedoScript : MonoBehaviour
 {
     public float managerDist = 1.5f;
     public int verticalRopeSegments, horizontalRopeSegments;
     public GameObject nodePrefab;
-    public List<NodeJordanRedoScript> allNodes;
-    public List<ConstraintJordanScript> allConstraints;
+    public List<NodeRedoScript> allNodes;
+    public List<ConstraintRedoScript> allConstraints;
     public bool useFixedDistance, singleRope;
     public LineRenderer ManagerLineRenderer;
     //Setup the nodes, then setup the constraints for those nodes
@@ -28,7 +28,7 @@ public class NodeManagerRedo : MonoBehaviour
 
     public void SetupNodes(bool singleRope)
     {
-        allNodes = new List<NodeJordanRedoScript>();
+        allNodes = new List<NodeRedoScript>();
         Vector3 newSpawnPos = transform.position;
         if (singleRope)
         {
@@ -37,7 +37,7 @@ public class NodeManagerRedo : MonoBehaviour
             {
                 newSpawnPos.y -= managerDist;
                 GameObject newNodeGO = Instantiate(nodePrefab, newSpawnPos, Quaternion.identity);
-                NodeJordanRedoScript newNode = newNodeGO.GetComponent<NodeJordanRedoScript>();
+                NodeRedoScript newNode = newNodeGO.GetComponent<NodeRedoScript>();
             
                 //If this is the first node, we need it to be a fixed point that doesn't move based on other nodes
                 if (i == 0)
@@ -69,7 +69,7 @@ public class NodeManagerRedo : MonoBehaviour
                 {
                     newSpawnPos.y -= managerDist;
                     GameObject newNodeGO = Instantiate(nodePrefab, newSpawnPos, Quaternion.identity);
-                    NodeJordanRedoScript newNode = newNodeGO.GetComponent<NodeJordanRedoScript>();
+                    NodeRedoScript newNode = newNodeGO.GetComponent<NodeRedoScript>();
 
                     //If this is the first node, we need it to be a fixed point that doesn't move based on other nodes
                     if (i % 3 == 0 && j == 0)
@@ -94,7 +94,7 @@ public class NodeManagerRedo : MonoBehaviour
         for (int i = 1; i < allNodes.Count; i++)
         {
             //for each of the nodes we spawn, create a new constraint
-            ConstraintJordanScript newConstraintA = gameObject.AddComponent<ConstraintJordanScript>();            
+            ConstraintRedoScript newConstraintA = gameObject.AddComponent<ConstraintRedoScript>();            
             if (i % verticalRopeSegments == 0)
             {
                 //do nothing so the first node in a column doesn't connect to the last of the previous column
@@ -119,7 +119,7 @@ public class NodeManagerRedo : MonoBehaviour
             for (int i = 0; i < allNodes.Count; i++)
             {
                 //create a new constraint
-                ConstraintJordanScript newConstraintB = gameObject.AddComponent<ConstraintJordanScript>();
+                ConstraintRedoScript newConstraintB = gameObject.AddComponent<ConstraintRedoScript>();
                 //If this node isnt the first node, but is still on the top row, setup its horizontal constraint
                 if (i != 0 && i % verticalRopeSegments == 0)
                 {
@@ -156,7 +156,7 @@ public class NodeManagerRedo : MonoBehaviour
     public void SimulateNodes()
     {
         //For each node we have already setup in Start
-        foreach (NodeJordanRedoScript node in allNodes)
+        foreach (NodeRedoScript node in allNodes)
         {
             if (!node.isLocked)
             {
@@ -174,7 +174,7 @@ public class NodeManagerRedo : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             //For each constraint
-            foreach (ConstraintJordanScript constraint in allConstraints)
+            foreach (ConstraintRedoScript constraint in allConstraints)
             {
                 //call that specific constraints distance update function depending on the whether we're using
                 //fixed updates or variable updates. 
@@ -190,7 +190,7 @@ public class NodeManagerRedo : MonoBehaviour
         }
         //Now that the constraints have updated all the nodes positions based on where they can be, update the 
         //nodes transform position to that value.
-        foreach (NodeJordanRedoScript node in allNodes)
+        foreach (NodeRedoScript node in allNodes)
         {
             node.transform.position = node.nodePos;
         }

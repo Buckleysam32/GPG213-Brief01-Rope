@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeJordanRedoScript : MonoBehaviour
+public class NodeRedoScript : MonoBehaviour
 {
     public Vector2 nodePos, nodePrevPos;
     public bool isLocked;
     public float mass;
-    public ConstraintJordanScript constraintA, constraintB;
+    public ConstraintRedoScript constraintA, constraintB;
     public LineRenderer nodeLinerenderer;
 
     //Every update make sure the line renderer is pointing at the correct positions for each of our constraints

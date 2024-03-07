@@ -14,18 +14,16 @@ public class NodeManagerRedoScript : MonoBehaviour
     public List<NodeRedoScript> allNodes;
     public List<ConstraintRedoScript> allConstraints;
     public bool useFixedDistance, singleRope;
-    public LineRenderer ManagerLineRenderer;
+    
     //Setup the nodes, then setup the constraints for those nodes
     void Start()
     {
         SetupNodes(singleRope);
     }
-
     private void FixedUpdate()
     {
         SimulateNodes();
     }
-
     public void SetupNodes(bool singleRope)
     {
         allNodes = new List<NodeRedoScript>();
@@ -148,7 +146,6 @@ public class NodeManagerRedoScript : MonoBehaviour
             }
         }
     }
-    
     /// <summary>
     /// During physics update, integrate the nodes movement, then update their positions using each constraints
     /// update function.
@@ -194,6 +191,5 @@ public class NodeManagerRedoScript : MonoBehaviour
         {
             node.transform.position = node.nodePos;
         }
-
     }
 }

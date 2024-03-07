@@ -15,9 +15,10 @@ public class NodeManagerRedo : MonoBehaviour
     public List<ConstraintJordanScript> allConstraints;
     public bool useFixedDistance, singleRope;
     public LineRenderer ManagerLineRenderer;
+    //Setup the nodes, then setup the constraints for those nodes
     void Start()
     {
-        SetupNodesInLine(singleRope);
+        SetupNodes(singleRope);
     }
 
     private void FixedUpdate()
@@ -25,7 +26,7 @@ public class NodeManagerRedo : MonoBehaviour
         SimulateNodes();
     }
 
-    public void SetupNodesInLine(bool singleRope)
+    public void SetupNodes(bool singleRope)
     {
         allNodes = new List<NodeJordanRedoScript>();
         Vector3 newSpawnPos = transform.position;
@@ -111,55 +112,72 @@ public class NodeManagerRedo : MonoBehaviour
                 allNodes[i].constraintA = newConstraintA;
             }
         }
-        //Setup a second constraint that targets the node verticalropesegments back in the list, this connects to the
-        //node horizontally to the left.
-        for (int i = 0; i < allNodes.Count; i++)
+        //Setup a second constraint that targets the node vertical rope segments back in the list, this connects to the
+        //node horizontally to the left. Only do this if we are making a 2D cloth not a single rope.
+        if (!singleRope)
         {
-            //create a new constraint
-            ConstraintJordanScript newConstraintB = gameObject.AddComponent<ConstraintJordanScript>();
-            //If this node isnt the first node, but is still on the top row, setup its horizontal constraint
-            if (i != 0 && i % verticalRopeSegments == 0)
+            for (int i = 0; i < allNodes.Count; i++)
             {
-                newConstraintB.nodeB = allNodes[i - verticalRopeSegments];
-                newConstraintB.nodeA = allNodes[i];
-                //tell it its min and max distances
-                newConstraintB.minJointDist = managerDist - (managerDist / 2f);
-                newConstraintB.maxJointDist = managerDist + (managerDist / 2f);
-                //add it to the constraints list
-                allConstraints.Add(newConstraintB);                
-                allNodes[i].constraintB = newConstraintB;
-            }
-            //else if it is a node that isn't in the first column, go back the number of vertical nodes (to get to the
-            //same position but in the last column) and make that our second constraint
-            else if (allNodes.ElementAtOrDefault(i - verticalRopeSegments))
-            {
-                newConstraintB.nodeB = allNodes[i - verticalRopeSegments];
-                newConstraintB.nodeA = allNodes[i];
-                //tell it its min and max distances
-                newConstraintB.minJointDist = managerDist - (managerDist / 2f);
-                newConstraintB.maxJointDist = managerDist + (managerDist / 2f);
-                //add it to the constraints list
-                allConstraints.Add(newConstraintB);                
-                allNodes[i].constraintB = newConstraintB;
+                //create a new constraint
+                ConstraintJordanScript newConstraintB = gameObject.AddComponent<ConstraintJordanScript>();
+                //If this node isnt the first node, but is still on the top row, setup its horizontal constraint
+                if (i != 0 && i % verticalRopeSegments == 0)
+                {
+                    newConstraintB.nodeB = allNodes[i - verticalRopeSegments];
+                    newConstraintB.nodeA = allNodes[i];
+                    //tell it its min and max distances
+                    newConstraintB.minJointDist = managerDist - (managerDist / 2f);
+                    newConstraintB.maxJointDist = managerDist + (managerDist / 2f);
+                    //add it to the constraints list
+                    allConstraints.Add(newConstraintB);                
+                    allNodes[i].constraintB = newConstraintB;
+                }
+                //else if it is a node that isn't in the first column, go back the number of vertical nodes (to get to the
+                //same position but in the last column) and make that our second constraint
+                else if (allNodes.ElementAtOrDefault(i - verticalRopeSegments))
+                {
+                    newConstraintB.nodeB = allNodes[i - verticalRopeSegments];
+                    newConstraintB.nodeA = allNodes[i];
+                    //tell it its min and max distances
+                    newConstraintB.minJointDist = managerDist - (managerDist / 2f);
+                    newConstraintB.maxJointDist = managerDist + (managerDist / 2f);
+                    //add it to the constraints list
+                    allConstraints.Add(newConstraintB);                
+                    allNodes[i].constraintB = newConstraintB;
+                }
             }
         }
     }
+    
+    /// <summary>
+    /// During physics update, integrate the nodes movement, then update their positions using each constraints
+    /// update function.
+    /// </summary>
     public void SimulateNodes()
     {
+        //For each node we have already setup in Start
         foreach (NodeJordanRedoScript node in allNodes)
         {
             if (!node.isLocked)
             {
+                //Track its current position as the basis of where we're starting
                 Vector2 updatePosition = node.nodePos;
+                //Add the difference between our last position to our current position to track our movement
                 node.nodePos += node.nodePos - node.nodePrevPos;
+                //Add gravity to the resulting movement
                 node.nodePos += Vector2.down * (9.81f * node.mass * Time.deltaTime * Time.deltaTime);
+                //Update the nodes prevpos value with the original position before we added the movement to it.
                 node.nodePrevPos = updatePosition;
             }
         }
+        //Now that we've updated the node values, we can call our constraints functions to bring them back in line
         for (int i = 0; i < 10; i++)
         {
+            //For each constraint
             foreach (ConstraintJordanScript constraint in allConstraints)
             {
+                //call that specific constraints distance update function depending on the whether we're using
+                //fixed updates or variable updates. 
                 if (useFixedDistance)
                 {
                     constraint.FixedDistanceUpdate(0.5f, 0.5f);
@@ -170,6 +188,8 @@ public class NodeManagerRedo : MonoBehaviour
                 }
             }
         }
+        //Now that the constraints have updated all the nodes positions based on where they can be, update the 
+        //nodes transform position to that value.
         foreach (NodeJordanRedoScript node in allNodes)
         {
             node.transform.position = node.nodePos;

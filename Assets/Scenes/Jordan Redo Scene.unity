@@ -265,9 +265,8 @@ MonoBehaviour:
   nodePrefab: {fileID: 9039049539315126125, guid: 688a4a0f1b0c2fd4382617b86f68c37a, type: 3}
   allNodes: []
   allConstraints: []
-  useFixedDistance: 0
+  useFixedDistance: 1
   singleRope: 0
-  ManagerLineRenderer: {fileID: 0}
 --- !u!1 &884948733
 GameObject:
   m_ObjectHideFlags: 0

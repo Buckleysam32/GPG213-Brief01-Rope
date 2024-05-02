@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Jordan Redo Scene.unity
+    guid: f0b12dc4f3df80548a1bcf0833b7bf5a
   m_configObjects: {}

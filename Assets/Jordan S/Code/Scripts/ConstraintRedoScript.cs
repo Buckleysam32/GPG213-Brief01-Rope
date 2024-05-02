@@ -10,9 +10,7 @@ public class ConstraintRedoScript : MonoBehaviour
     /// <summary>
     /// A function that is used to constrain nodes at a fixed distance to each other.
     /// </summary>
-    /// <param name="compensate1"></param>
-    /// <param name="compensate2"></param>
-    public void FixedDistanceUpdate(float compensate1, float compensate2)
+    public void FixedDistanceUpdate()
     {
         //Figure out the centre point of the two nodes
         Vector2 constraintCentre = (nodeA.nodePos + nodeB.nodePos) / 2f;

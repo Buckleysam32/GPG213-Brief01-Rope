@@ -177,7 +177,7 @@ public class NodeManagerRedoScript : MonoBehaviour
                 //fixed updates or variable updates. 
                 if (useFixedDistance)
                 {
-                    constraint.FixedDistanceUpdate(0.5f, 0.5f);
+                    constraint.FixedDistanceUpdate();
                 }
                 else
                 {
